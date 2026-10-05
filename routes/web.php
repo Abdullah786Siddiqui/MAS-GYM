@@ -5,10 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/run-migrations-xyz789', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return 'Done: ' . \Illuminate\Support\Facades\Artisan::output();
-});
+ 
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
