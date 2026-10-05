@@ -1,1 +1,1 @@
-# MAS-GYM
+# MAS GYM
