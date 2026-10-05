@@ -10,6 +10,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
+COPY --from=vendor /app/vendor ./vendor
 RUN npm run build
 
 FROM php:8.3-apache
