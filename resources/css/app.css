@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Fix WebKit autocomplete background in dark mode */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px theme('colors.zinc.950') inset !important;
+    -webkit-text-fill-color: theme('colors.white') !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Fix WebKit autocomplete background in light mode */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px theme('colors.zinc.50') inset !important;
+    -webkit-text-fill-color: theme('colors.zinc.800') !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
