@@ -40,8 +40,57 @@ watch(showingNavigationDropdown, (val) => {
                         <!-- Desktop Nav Links -->
                         <div class="hidden sm:flex items-center space-x-1">
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                              Dashboard
+                                Dashboard
                             </NavLink>
+
+                            <!-- Setup Dropdown -->
+                            <Dropdown align="left" width="56" contentClasses="p-1.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl space-y-0.5">
+                                <template #trigger>
+                                    <button
+                                        type="button"
+                                        class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-200 select-none cursor-pointer"
+                                        :class="route().current('setup.*')
+                                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold'
+                                            : 'text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60'"
+                                    >
+                                        <i class="fa-duotone fa-sliders text-emerald-500 text-xs"></i>
+                                        <span>Setup</span>
+                                        <i class="fa-duotone fa-chevron-down text-[10px] ml-0.5 opacity-60"></i>
+                                    </button>
+                                </template>
+
+                                <template #content>
+                                    <div class="space-y-0.5">
+                                        <div class="px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-zinc-400">
+                                            Setup Modules
+                                        </div>
+
+                                        <DropdownLink
+                                            :href="route('setup.muscle-groups.index')"
+                                            :class="route().current('setup.muscle-groups.*') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : ''"
+                                        >
+                                            <i class="fa-duotone fa-person-running me-2.5 text-emerald-500 w-4 text-center"></i>
+                                            <span>Muscle Groups</span>
+                                        </DropdownLink>
+
+                                        <DropdownLink
+                                            :href="route('setup.exercises.index')"
+                                            :class="route().current('setup.exercises.*') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : ''"
+                                        >
+                                            <i class="fa-duotone fa-dumbbell me-2.5 text-emerald-500 w-4 text-center"></i>
+                                            <span>Exercises</span>
+                                        </DropdownLink>
+
+                                        <DropdownLink
+                                            :href="route('setup.exercise-assignments.index')"
+                                            :class="route().current('setup.exercise-assignments.*') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : ''"
+                                        >
+                                            <i class="fa-duotone fa-diagram-project me-2.5 text-emerald-500 w-4 text-center"></i>
+                                            <span>Exercise Assignments</span>
+                                        </DropdownLink>
+                                    </div>
+                                </template>
+                            </Dropdown>
                         </div>
                     </div>
 
@@ -155,6 +204,32 @@ watch(showingNavigationDropdown, (val) => {
                     <i class="fa-duotone fa-gauge-high w-6 text-emerald-500 text-base"></i>
                     <span>Dashboard</span>
                 </ResponsiveNavLink>
+                <p class="px-3 pt-3 text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">Setup</p>
+
+                <ResponsiveNavLink
+                    :href="route('setup.muscle-groups.index')"
+                    :active="route().current('setup.muscle-groups.*')"
+                    @click="showingNavigationDropdown = false"
+                >
+                    <i class="fa-duotone fa-person-running w-6 text-emerald-500 text-base"></i>
+                    <span>Muscle Groups</span>
+                </ResponsiveNavLink>
+                <ResponsiveNavLink
+                    :href="route('setup.exercises.index')"
+                    :active="route().current('setup.exercises.*')"
+                    @click="showingNavigationDropdown = false"
+                >
+                    <i class="fa-duotone fa-dumbbell w-6 text-emerald-500 text-base"></i>
+                    <span>Exercises</span>
+                </ResponsiveNavLink>
+                <ResponsiveNavLink
+                    :href="route('setup.exercise-assignments.index')"
+                    :active="route().current('setup.exercise-assignments.*')"
+                    @click="showingNavigationDropdown = false"
+                >
+                    <i class="fa-duotone fa-diagram-project w-6 text-emerald-500 text-base"></i>
+                    <span>Exercise Assignments</span>
+                </ResponsiveNavLink>
             </div>
 
             <!-- Drawer User Footer -->
@@ -198,6 +273,33 @@ watch(showingNavigationDropdown, (val) => {
                 <slot name="header" />
             </div>
         </header>
+
+        <!-- Flash Notification Toast -->
+        <Transition
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="transform -translate-y-4 opacity-0"
+            enter-to-class="transform translate-y-0 opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="transform translate-y-0 opacity-100"
+            leave-to-class="transform -translate-y-4 opacity-0"
+        >
+            <div v-if="$page.props.flash?.success" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-800 dark:text-emerald-300 shadow-sm">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-duotone fa-circle-check text-emerald-500 text-base"></i>
+                        <span>{{ $page.props.flash.success }}</span>
+                    </div>
+                </div>
+            </div>
+            <div v-else-if="$page.props.flash?.error" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm font-semibold text-rose-800 dark:text-rose-300 shadow-sm">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-duotone fa-triangle-exclamation text-rose-500 text-base"></i>
+                        <span>{{ $page.props.flash.error }}</span>
+                    </div>
+                </div>
+            </div>
+        </Transition>
 
         <!-- Page Content -->
         <main class="relative z-10">
