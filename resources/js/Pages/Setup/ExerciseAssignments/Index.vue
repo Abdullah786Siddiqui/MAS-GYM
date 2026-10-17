@@ -45,7 +45,7 @@ const getEquipmentBadge = (eq) => {
         case 'barbell':
             return {
                 label: 'Barbell',
-                class: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20',
+                class: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20',
             };
         case 'dumbbell':
             return {
@@ -84,7 +84,7 @@ const getEquipmentBadge = (eq) => {
         <template #header>
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/20 border border-indigo-500/20 text-indigo-500 shadow-sm shrink-0">
+                    <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 shadow-sm shrink-0">
                         <i class="fa-duotone fa-diagram-project text-lg sm:text-xl"></i>
                     </div>
                     <div class="min-w-0">
@@ -92,7 +92,7 @@ const getEquipmentBadge = (eq) => {
                             <h1 class="text-base sm:text-xl font-extrabold text-zinc-900 dark:text-white tracking-tight truncate">
                                 Exercise Assignments
                             </h1>
-                            <span class="rounded-full bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                            <span class="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
                                 Anatomy Mapping
                             </span>
                         </div>
@@ -105,7 +105,7 @@ const getEquipmentBadge = (eq) => {
                 <!-- Primary Action: Go to Drag & Drop Assignment Workspace -->
                 <Link
                     :href="route('setup.exercise-assignments.manage')"
-                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-indigo-500/20 hover:from-indigo-600 hover:to-pink-600 transition active:scale-[0.98] focus:outline-none"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-emerald-500/20 hover:from-emerald-600 hover:to-teal-700 transition active:scale-[0.98] focus:outline-none"
                 >
                     <i class="fa-duotone fa-arrow-right-arrow-left text-sm"></i>
                     <span>Assignment Workspace</span>
@@ -133,14 +133,14 @@ const getEquipmentBadge = (eq) => {
                             <div class="relative flex-1">
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
                                     <i v-if="!isSearching" class="fa-duotone fa-magnifying-glass text-xs"></i>
-                                    <i v-else class="fa-duotone fa-spinner-third fa-spin text-xs text-indigo-500"></i>
+                                    <i v-else class="fa-duotone fa-spinner-third fa-spin text-xs text-emerald-500"></i>
                                 </span>
                                 <input
                                     v-model="filterState.search"
                                     @input="onSearchInput"
                                     type="text"
                                     placeholder="Search by muscle group name or assigned exercise..."
-                                    class="w-full pl-9 pr-9 py-2.5 sm:py-2 text-xs sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/80 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white dark:focus:bg-zinc-800 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                    class="w-full pl-9 pr-9 py-2.5 sm:py-2 text-xs sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/80 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 focus:border-emerald-500 focus:bg-white dark:focus:bg-zinc-800 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                                 />
                                 <button
                                     v-if="filterState.search"
@@ -170,7 +170,7 @@ const getEquipmentBadge = (eq) => {
                     <!-- TABLE CELLS -->
                     <template #cell-name="{ item }">
                         <div class="flex items-center gap-3 min-w-0 pr-3">
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                                 <i class="fa-duotone fa-person-running text-base"></i>
                             </div>
                             <div class="min-w-0 flex-1">
@@ -215,7 +215,7 @@ const getEquipmentBadge = (eq) => {
                             <span
                                 class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap"
                                 :class="item.exercises_count > 0
-                                    ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400'
+                                    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
                                     : 'bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-400'"
                             >
                                 <i class="fa-duotone fa-dumbbell text-[10px]"></i>
@@ -229,7 +229,7 @@ const getEquipmentBadge = (eq) => {
                         <div class="flex items-center justify-end">
                             <Link
                                 :href="route('setup.exercise-assignments.manage', { muscle_group_id: item.id })"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-indigo-500/20 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500 hover:text-white transition-all text-xs font-bold shadow-xs active:scale-95"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-all text-xs font-bold shadow-xs active:scale-95"
                                 title="Open Assignment Workspace for this muscle group"
                             >
                                 <i class="fa-duotone fa-arrow-right-arrow-left text-xs"></i>

@@ -267,7 +267,7 @@ const executeDelete = () => {
 
                     <template #cell-exercises_count="{ item }">
                         <div class="flex items-center justify-center">
-                            <span class="inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 text-xs font-bold text-cyan-600 dark:text-cyan-400 whitespace-nowrap">
+                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
                                 <i class="fa-duotone fa-dumbbell text-[10px]"></i>
                                 {{ item.exercises_count ?? 0 }}
                             </span>

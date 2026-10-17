@@ -202,7 +202,7 @@ const getEquipmentBadge = (eq) => {
             return {
                 label: 'Barbell',
                 icon: 'fa-duotone fa-dumbbell',
-                class: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20',
+                class: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20',
             };
         case 'dumbbell':
             return {
@@ -246,7 +246,7 @@ const getEquipmentBadge = (eq) => {
         <template #header>
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 shadow-sm shrink-0">
+                    <div class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 shadow-sm shrink-0">
                         <i class="fa-duotone fa-dumbbell text-lg sm:text-xl"></i>
                     </div>
                     <div class="min-w-0">
@@ -254,12 +254,12 @@ const getEquipmentBadge = (eq) => {
                             <h1 class="text-base sm:text-xl font-extrabold text-zinc-900 dark:text-white tracking-tight truncate">
                                 Exercises Library
                             </h1>
-                            <span class="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 shrink-0">
+                            <span class="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
                                 Movement Setup
                             </span>
                         </div>
                         <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate hidden xs:block">
-                            Manage gym exercises, equipment categories, and anatomy mappings
+                            Manage gym exercises, equipment categories, and form instructions
                         </p>
                     </div>
                 </div>
@@ -268,7 +268,7 @@ const getEquipmentBadge = (eq) => {
                 <button
                     @click="openCreateModal"
                     type="button"
-                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-cyan-500/20 hover:from-cyan-600 hover:to-blue-700 transition active:scale-[0.98] focus:outline-none"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-emerald-500/20 hover:from-emerald-600 hover:to-teal-700 transition active:scale-[0.98] focus:outline-none"
                 >
                     <i class="fa-duotone fa-plus text-sm"></i>
                     <span>Add Exercise</span>
@@ -290,11 +290,11 @@ const getEquipmentBadge = (eq) => {
                 >
                     <div
                         v-show="isFilterOpen"
-                        class="rounded-2xl sm:rounded-3xl border border-cyan-500/20 bg-gradient-to-b from-cyan-500/5 to-transparent dark:from-cyan-950/20 p-4 sm:p-5 shadow-sm space-y-4"
+                        class="rounded-2xl sm:rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/5 to-transparent dark:from-emerald-950/20 p-4 sm:p-5 shadow-sm space-y-4"
                     >
                         <div class="flex items-center justify-between pb-3 border-b border-zinc-200/80 dark:border-zinc-800">
                             <div class="flex items-center gap-2.5">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 shadow-xs">
+                                <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 shadow-xs">
                                     <i class="fa-duotone fa-filter-list text-sm"></i>
                                 </div>
                                 <div>
@@ -337,7 +337,7 @@ const getEquipmentBadge = (eq) => {
                                 :options="equipmentSelectOptions"
                                 placeholder="All Equipment"
                                 search-placeholder="Search equipment..."
-                                accent-color="cyan"
+                                accent-color="emerald"
                                 @change="onFilterChange('equipment', $event)"
                             />
                         </div>
@@ -361,14 +361,14 @@ const getEquipmentBadge = (eq) => {
                             <div class="relative flex-1">
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
                                     <i v-if="!isSearching" class="fa-duotone fa-magnifying-glass text-xs"></i>
-                                    <i v-else class="fa-duotone fa-spinner-third fa-spin text-xs text-cyan-500"></i>
+                                    <i v-else class="fa-duotone fa-spinner-third fa-spin text-xs text-emerald-500"></i>
                                 </span>
                                 <input
                                     v-model="filterState.search"
                                     @input="onSearchInput"
                                     type="text"
                                     placeholder="Live search by exercise name..."
-                                    class="w-full pl-9 pr-9 py-2.5 sm:py-2 text-xs sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/80 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 focus:border-cyan-500 focus:bg-white dark:focus:bg-zinc-800 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                                    class="w-full pl-9 pr-9 py-2.5 sm:py-2 text-xs sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/80 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 focus:border-emerald-500 focus:bg-white dark:focus:bg-zinc-800 focus:ring-2 focus:ring-emerald-500/20 transition-all"
                                 />
                                 <button
                                     v-if="filterState.search"
@@ -387,14 +387,14 @@ const getEquipmentBadge = (eq) => {
                                 type="button"
                                 class="inline-flex items-center justify-center gap-2 rounded-xl border px-3.5 py-2.5 sm:py-2 text-xs sm:text-sm font-bold transition shadow-xs shrink-0 select-none"
                                 :class="isFilterOpen || activeFilterCount > 0
-                                    ? 'border-cyan-500/50 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 ring-2 ring-cyan-500/20'
+                                    ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 ring-2 ring-emerald-500/20'
                                     : 'border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-700/60'"
                             >
                                 <i class="fa-duotone fa-filter text-xs"></i>
                                 <span>Filter</span>
                                 <span
                                     v-if="activeFilterCount > 0"
-                                    class="inline-flex items-center justify-center h-4 min-w-[16px] px-1 rounded-full bg-cyan-500 text-[10px] font-black text-white"
+                                    class="inline-flex items-center justify-center h-4 min-w-[16px] px-1 rounded-full bg-emerald-500 text-[10px] font-black text-white"
                                 >
                                     {{ activeFilterCount }}
                                 </span>
@@ -417,7 +417,7 @@ const getEquipmentBadge = (eq) => {
                     <!-- DESKTOP TABLE CELLS -->
                     <template #cell-name="{ item }">
                         <div class="flex items-center gap-3 min-w-0 pr-3">
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                                 <i class="fa-duotone fa-dumbbell text-base"></i>
                             </div>
                             <div class="min-w-0 flex-1">
@@ -486,7 +486,7 @@ const getEquipmentBadge = (eq) => {
                             <button
                                 @click="openEditModal(item)"
                                 type="button"
-                                class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:text-cyan-500 hover:border-cyan-500/50 transition shadow-sm"
+                                class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:text-emerald-500 hover:border-emerald-500/50 transition shadow-sm"
                                 title="Edit"
                             >
                                 <i class="fa-duotone fa-pen-to-square text-xs"></i>
@@ -512,7 +512,7 @@ const getEquipmentBadge = (eq) => {
                 <!-- Modal Header -->
                 <div class="flex items-center justify-between pb-4 border-b border-zinc-100 dark:border-zinc-800">
                     <div class="flex items-center gap-2.5">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                             <i class="fa-duotone fa-dumbbell text-base"></i>
                         </div>
                         <div>
@@ -562,7 +562,7 @@ const getEquipmentBadge = (eq) => {
                             :options="equipmentSelectOptions"
                             placeholder="Select Equipment Type"
                             search-placeholder="Search equipment..."
-                            accent-color="cyan"
+                            accent-color="emerald"
                         />
                         <InputError :message="form.errors.equipment" class="mt-1" />
                     </div>
@@ -575,7 +575,7 @@ const getEquipmentBadge = (eq) => {
                             id="ex_desc"
                             v-model="form.description"
                             rows="3"
-                            class="mt-1 block w-full text-base sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/70 dark:bg-zinc-800/60 p-3 text-zinc-900 dark:text-zinc-100 shadow-sm focus:border-cyan-500 focus:bg-white dark:focus:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition placeholder-zinc-400"
+                            class="mt-1 block w-full text-base sm:text-sm rounded-xl border border-zinc-200 dark:border-zinc-700/80 bg-zinc-50/70 dark:bg-zinc-800/60 p-3 text-zinc-900 dark:text-zinc-100 shadow-sm focus:border-emerald-500 focus:bg-white dark:focus:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition placeholder-zinc-400"
                             placeholder="Proper grip, movement range, breathing instructions..."
                         ></textarea>
                         <InputError :message="form.errors.description" class="mt-1" />
@@ -611,7 +611,7 @@ const getEquipmentBadge = (eq) => {
                                 v-model="form.is_active"
                                 class="sr-only peer"
                             />
-                            <div class="w-11 h-6 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
+                            <div class="w-11 h-6 bg-zinc-300 dark:bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </div>
 

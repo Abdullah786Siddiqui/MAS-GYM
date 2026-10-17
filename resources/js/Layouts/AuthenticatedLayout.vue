@@ -8,6 +8,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import { useTheme } from '@/Composables/useTheme.js';
+import PageLoader from '@/Components/PageLoader.vue';
 
 const { initTheme } = useTheme();
 const showingNavigationDropdown = ref(false);
@@ -23,6 +24,9 @@ watch(showingNavigationDropdown, (val) => {
 
 <template>
     <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-100 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
+        <!-- Global Animated Page Change Loader -->
+        <PageLoader />
+
         <!-- Ambient glow (dark only) -->
         <div class="fixed top-0 left-1/2 -translate-x-1/2 h-96 w-96 rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none hidden dark:block"></div>
 

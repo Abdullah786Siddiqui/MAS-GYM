@@ -1,6 +1,7 @@
 <script setup>
 import AppLogo from '@/Components/AppLogo.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
+import PageLoader from '@/Components/PageLoader.vue';
 import { Link } from '@inertiajs/vue3';
 import { useTheme } from '@/Composables/useTheme.js';
 import { onMounted } from 'vue';
@@ -14,6 +15,9 @@ onMounted(() => {
 
 <template>
     <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-100 flex flex-col justify-center relative overflow-hidden selection:bg-emerald-500 selection:text-white font-sans transition-colors duration-300">
+        <!-- Global Animated Page Change Loader -->
+        <PageLoader />
+
         <!-- Ambient Background Glows (dark only) -->
         <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-[128px] pointer-events-none hidden dark:block"></div>
         <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-teal-500/10 blur-[128px] pointer-events-none hidden dark:block"></div>

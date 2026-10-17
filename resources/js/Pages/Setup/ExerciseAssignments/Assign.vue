@@ -266,7 +266,7 @@ const getEquipmentBadge = (eq) => {
         case 'barbell':
             return {
                 label: 'Barbell',
-                class: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20',
+                class: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20',
             };
         case 'dumbbell':
             return {
@@ -307,7 +307,7 @@ const getEquipmentBadge = (eq) => {
                 <div class="flex items-center gap-3">
                     <Link
                         :href="route('setup.exercise-assignments.index')"
-                        class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-indigo-500 dark:hover:text-indigo-400 hover:border-indigo-500/30 transition shadow-sm shrink-0"
+                        class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-emerald-500 dark:hover:text-emerald-400 hover:border-emerald-500/30 transition shadow-sm shrink-0"
                         title="Back to Overview"
                     >
                         <i class="fa-duotone fa-arrow-left text-sm"></i>
@@ -317,7 +317,7 @@ const getEquipmentBadge = (eq) => {
                             <h1 class="text-base sm:text-xl font-extrabold text-zinc-900 dark:text-white tracking-tight truncate">
                                 Assignment Workspace
                             </h1>
-                            <span class="rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                            <span class="rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
                                 Drag & Drop
                             </span>
                         </div>
@@ -345,12 +345,12 @@ const getEquipmentBadge = (eq) => {
                 <div class="block lg:hidden rounded-2xl border border-zinc-200/90 dark:border-zinc-800/90 bg-white dark:bg-zinc-900 p-3.5 shadow-sm space-y-2.5">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500">
+                            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
                                 <i class="fa-duotone fa-person-running text-xs"></i>
                             </div>
                             <span class="text-xs font-bold text-zinc-900 dark:text-white">Active Muscle Group:</span>
                         </div>
-                        <span class="text-xs font-extrabold text-indigo-600 dark:text-indigo-400">
+                        <span class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400">
                             {{ currentMuscleGroup?.name }} ({{ localAssignedList.length }})
                         </span>
                     </div>
@@ -359,7 +359,7 @@ const getEquipmentBadge = (eq) => {
                         :options="muscleGroupSelectOptions"
                         placeholder="Switch Muscle Group..."
                         search-placeholder="Search anatomy..."
-                        accent-color="indigo"
+                        accent-color="emerald"
                         @change="switchMuscleGroup"
                     />
 
@@ -370,7 +370,7 @@ const getEquipmentBadge = (eq) => {
                             @click="mobileActiveTab = 'assigned'"
                             class="py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"
                             :class="mobileActiveTab === 'assigned'
-                                ? 'bg-indigo-600 text-white shadow-sm'
+                                ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm'
                                 : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'"
                         >
                             <i class="fa-duotone fa-bullseye-arrow"></i>
@@ -381,7 +381,7 @@ const getEquipmentBadge = (eq) => {
                             @click="mobileActiveTab = 'pool'"
                             class="py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"
                             :class="mobileActiveTab === 'pool'
-                                ? 'bg-indigo-600 text-white shadow-sm'
+                                ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm'
                                 : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'"
                         >
                             <i class="fa-duotone fa-dumbbell"></i>
@@ -404,7 +404,7 @@ const getEquipmentBadge = (eq) => {
                         <!-- Sidebar Header -->
                         <div class="p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/60">
                             <div class="flex items-center gap-2.5">
-                                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 shadow-xs">
+                                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 shadow-xs">
                                     <i class="fa-duotone fa-person-running text-base"></i>
                                 </div>
                                 <div>
@@ -424,7 +424,7 @@ const getEquipmentBadge = (eq) => {
                                     v-model="muscleGroupSearch"
                                     type="text"
                                     placeholder="Filter muscle groups..."
-                                    class="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                    class="w-full pl-8 pr-3 py-1.5 rounded-xl text-xs bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                                 />
                             </div>
                         </div>
@@ -438,7 +438,7 @@ const getEquipmentBadge = (eq) => {
                                 type="button"
                                 class="w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-bold transition-all border select-none group text-left"
                                 :class="mg.id === currentMuscleGroupId
-                                    ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 text-white border-transparent shadow-md shadow-indigo-500/25 ring-2 ring-indigo-500/20'
+                                    ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white border-transparent shadow-md shadow-emerald-500/25 ring-2 ring-emerald-500/20'
                                     : 'bg-transparent text-zinc-700 dark:text-zinc-300 border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800/70 hover:border-zinc-200 dark:hover:border-zinc-700'"
                             >
                                 <div class="flex items-center gap-2.5 min-w-0 pr-1">
@@ -446,7 +446,7 @@ const getEquipmentBadge = (eq) => {
                                         class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[10px]"
                                         :class="mg.id === currentMuscleGroupId
                                             ? 'bg-white/20 text-white'
-                                            : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-indigo-500'"
+                                            : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:text-emerald-500'"
                                     >
                                         <i class="fa-duotone fa-dumbbell"></i>
                                     </span>
@@ -491,7 +491,7 @@ const getEquipmentBadge = (eq) => {
                             <!-- Header -->
                             <div class="p-4 sm:p-5 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/60 flex items-center justify-between gap-3">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm shrink-0">
+                                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-sm shrink-0">
                                         <i class="fa-duotone fa-bullseye-arrow text-base"></i>
                                     </div>
                                     <div class="min-w-0">
@@ -506,13 +506,13 @@ const getEquipmentBadge = (eq) => {
                                     </div>
                                 </div>
 
-                                <span class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                                <span class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
                                     {{ localAssignedList.length }}
                                 </span>
                             </div>
 
                             <!-- Drop Area Notification Bar -->
-                            <div class="px-4 py-2 bg-indigo-50/60 dark:bg-indigo-950/20 border-b border-indigo-500/10 flex items-center justify-between text-[11px] text-indigo-600 dark:text-indigo-400">
+                            <div class="px-4 py-2 bg-emerald-50/60 dark:bg-emerald-950/20 border-b border-emerald-500/10 flex items-center justify-between text-[11px] text-emerald-600 dark:text-emerald-400">
                                 <span class="flex items-center gap-1.5 font-medium">
                                     <i class="fa-duotone fa-arrow-down-to-bracket"></i>
                                     <span>Drag target zone active</span>
@@ -534,7 +534,7 @@ const getEquipmentBadge = (eq) => {
                                     <div
                                         v-for="(item, index) in localAssignedList"
                                         :key="item.id"
-                                        class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-850 hover:border-indigo-500/40 hover:shadow-md transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
+                                        class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
                                     >
                                         <div class="flex items-center gap-2.5 min-w-0 pr-2">
                                             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-700/80 text-[10px] font-black text-zinc-600 dark:text-zinc-300">
@@ -577,7 +577,7 @@ const getEquipmentBadge = (eq) => {
                                     v-if="localAssignedList.length === 0"
                                     class="my-auto py-12 px-4 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center flex flex-col items-center justify-center bg-zinc-50/50 dark:bg-zinc-900/50"
                                 >
-                                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500 mb-3">
+                                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 mb-3">
                                         <i class="fa-duotone fa-arrow-down-to-line text-xl"></i>
                                     </div>
                                     <h4 class="text-xs font-bold text-zinc-900 dark:text-white">
@@ -601,7 +601,7 @@ const getEquipmentBadge = (eq) => {
                             <div class="p-4 sm:p-5 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/60 space-y-3">
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="flex items-center gap-2.5">
-                                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-sm shrink-0">
+                                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-sm shrink-0">
                                             <i class="fa-duotone fa-dumbbell text-base"></i>
                                         </div>
                                         <div>
@@ -626,7 +626,7 @@ const getEquipmentBadge = (eq) => {
                                         v-model="poolSearch"
                                         type="text"
                                         placeholder="Search exercise library..."
-                                        class="w-full pl-8 pr-8 py-2 rounded-xl text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                        class="w-full pl-8 pr-8 py-2 rounded-xl text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                                     />
                                     <button
                                         v-if="poolSearch"
@@ -647,8 +647,8 @@ const getEquipmentBadge = (eq) => {
                                         type="button"
                                         class="px-2.5 py-1 rounded-lg text-[10px] font-bold transition whitespace-nowrap shrink-0 border"
                                         :class="poolEquipmentFilter === tab.value
-                                            ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 border-zinc-900 dark:border-white shadow-xs'
-                                            : 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border-transparent hover:bg-zinc-200 dark:hover:bg-zinc-700'"
+                                            ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-transparent shadow-xs'
+                                            : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border-zinc-200/80 dark:border-zinc-700/80 hover:bg-zinc-200 dark:hover:bg-zinc-700'"
                                     >
                                         {{ tab.label }}
                                     </button>
@@ -669,10 +669,10 @@ const getEquipmentBadge = (eq) => {
                                     <div
                                         v-for="exercise in filteredPoolExercises"
                                         :key="exercise.id"
-                                        class="group relative flex items-center justify-between p-3 rounded-2xl border bg-white dark:bg-zinc-850 hover:shadow-md transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
+                                        class="group relative flex items-center justify-between p-3 rounded-2xl border transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
                                         :class="localAssignedIds.has(exercise.id)
-                                            ? 'border-indigo-500/30 bg-indigo-50/20 dark:bg-indigo-950/20'
-                                            : 'border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/40'"
+                                            ? 'border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/30 shadow-none'
+                                            : 'border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md'"
                                     >
                                         <div class="flex items-center gap-2.5 min-w-0 pr-2">
                                             <span class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs shrink-0" title="Drag to assign">
@@ -685,7 +685,7 @@ const getEquipmentBadge = (eq) => {
                                                     </h4>
                                                     <span
                                                         v-if="localAssignedIds.has(exercise.id)"
-                                                        class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 text-[9px] font-extrabold"
+                                                        class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[9px] font-extrabold"
                                                     >
                                                         <i class="fa-solid fa-check text-[8px]"></i>
                                                         <span>Assigned</span>
@@ -708,7 +708,7 @@ const getEquipmentBadge = (eq) => {
                                                 v-if="!localAssignedIds.has(exercise.id)"
                                                 type="button"
                                                 @click.stop="assignExercise(exercise)"
-                                                class="flex h-7 w-7 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white transition active:scale-95 shadow-xs"
+                                                class="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition active:scale-95 shadow-xs"
                                                 title="Quick Assign"
                                             >
                                                 <i class="fa-duotone fa-plus text-xs"></i>
@@ -761,7 +761,7 @@ const getEquipmentBadge = (eq) => {
                 v-if="toast.show"
                 class="fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl border text-xs font-bold backdrop-blur-md"
                 :class="toast.type === 'success'
-                    ? 'bg-zinc-900/90 text-white border-zinc-700/80 shadow-indigo-500/10'
+                    ? 'bg-zinc-900/90 text-white border-zinc-700/80 shadow-emerald-500/10'
                     : 'bg-rose-950/90 text-rose-100 border-rose-800/80 shadow-rose-500/10'"
             >
                 <div

@@ -16,6 +16,11 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                zinc: {
+                    850: '#1f1f23',
+                },
+            },
         },
     },
 
