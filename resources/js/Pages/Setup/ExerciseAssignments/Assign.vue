@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import SearchableSelect from '@/Components/SearchableSelect.vue';
@@ -122,6 +122,23 @@ const filteredPoolExercises = computed({
 
 // Mobile Tab Toggle between "Assigned" and "Library Pool"
 const mobileActiveTab = ref('assigned'); // 'assigned' | 'pool'
+
+// Mobile detection to completely disable drag & drop on mobile touch screens
+const isMobile = ref(false);
+const checkMobile = () => {
+    if (typeof window !== 'undefined') {
+        isMobile.value = window.innerWidth < 1024;
+    }
+};
+
+onMounted(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', checkMobile);
+});
 
 // Toast notification state
 const toast = ref({
@@ -318,11 +335,13 @@ const getEquipmentBadge = (eq) => {
                                 Assignment Workspace
                             </h1>
                             <span class="rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
-                                Drag & Drop
+                                <span class="sm:hidden">Tap (+) to Assign</span>
+                                <span class="hidden sm:inline">Drag & Drop / Tap (+)</span>
                             </span>
                         </div>
                         <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate hidden xs:block">
-                            Select muscle group on the left, then drag exercises or tap (+) to assign side-by-side
+                            <span class="sm:hidden">Select muscle group, then tap (+) on any exercise to assign</span>
+                            <span class="hidden sm:inline">Select muscle group on the left, then drag exercises or tap (+) to assign side-by-side</span>
                         </p>
                     </div>
                 </div>
@@ -501,7 +520,8 @@ const getEquipmentBadge = (eq) => {
                                             </h3>
                                         </div>
                                         <p class="text-[11px] text-zinc-400 truncate">
-                                            Drop movements here or use (+)
+                                            <span class="sm:hidden">Tap (×) to remove</span>
+                                            <span class="hidden sm:inline">Drop movements here or use (+)</span>
                                         </p>
                                     </div>
                                 </div>
@@ -514,17 +534,18 @@ const getEquipmentBadge = (eq) => {
                             <!-- Drop Area Notification Bar -->
                             <div class="px-4 py-2 bg-emerald-50/60 dark:bg-emerald-950/20 border-b border-emerald-500/10 flex items-center justify-between text-[11px] text-emerald-600 dark:text-emerald-400">
                                 <span class="flex items-center gap-1.5 font-medium">
-                                    <i class="fa-duotone fa-arrow-down-to-bracket"></i>
-                                    <span>Drag target zone active</span>
+                                    <i :class="isMobile ? 'fa-duotone fa-bullseye-arrow' : 'fa-duotone fa-arrow-down-to-bracket'"></i>
+                                    <span>{{ isMobile ? 'Assigned Movements' : 'Drag target zone active' }}</span>
                                 </span>
-                                <span class="text-[10px] text-zinc-400">Drag to reorder</span>
+                                <span class="text-[10px] text-zinc-400">{{ isMobile ? 'Tap (×) to remove' : 'Drag to reorder' }}</span>
                             </div>
 
                             <!-- VueDraggable: Assigned Target List -->
                             <div class="p-3 sm:p-4 bg-zinc-50/30 dark:bg-zinc-900/40 flex-1 flex flex-col">
                                 <VueDraggable
                                     v-model="localAssignedList"
-                                    :group="{ name: 'exercises', put: true }"
+                                    :group="{ name: 'exercises', put: !isMobile }"
+                                    :disabled="isMobile"
                                     ghost-class="opacity-40"
                                     drag-class="scale-102"
                                     @add="onDraggableAdd"
@@ -534,7 +555,8 @@ const getEquipmentBadge = (eq) => {
                                     <div
                                         v-for="(item, index) in localAssignedList"
                                         :key="item.id"
-                                        class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
+                                        class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md transition-all duration-150 select-none"
+                                        :class="{ 'cursor-grab active:cursor-grabbing': !isMobile }"
                                     >
                                         <div class="flex items-center gap-2.5 min-w-0 pr-2">
                                             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-700/80 text-[10px] font-black text-zinc-600 dark:text-zinc-300">
@@ -555,15 +577,15 @@ const getEquipmentBadge = (eq) => {
                                             </div>
                                         </div>
 
-                                        <!-- Actions: Grip Handle + Unassign Button -->
+                                        <!-- Actions: Grip Handle (Desktop Only) + Unassign Button -->
                                         <div class="flex items-center gap-1.5 shrink-0">
-                                            <span class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs" title="Drag to reorder">
+                                            <span v-if="!isMobile" class="drag-handle text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs hidden lg:inline-flex" title="Drag to reorder">
                                                 <i class="fa-solid fa-grip-vertical"></i>
                                             </span>
                                             <button
                                                 type="button"
                                                 @click.stop="unassignExercise(item)"
-                                                class="flex h-7 w-7 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition active:scale-95"
+                                                class="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition active:scale-95"
                                                 title="Remove exercise"
                                             >
                                                 <i class="fa-duotone fa-xmark text-xs"></i>
@@ -584,7 +606,8 @@ const getEquipmentBadge = (eq) => {
                                         No movements assigned yet
                                     </h4>
                                     <p class="text-[11px] text-zinc-400 max-w-xs mt-1">
-                                        Drag exercises from the library on the right or tap (+) to assign to {{ currentMuscleGroup?.name }}
+                                        <span class="sm:hidden">Switch to Library Pool tab and tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
+                                        <span class="hidden sm:inline">Drag exercises from the library on the right or tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -609,7 +632,8 @@ const getEquipmentBadge = (eq) => {
                                                 Exercise Library Pool
                                             </h3>
                                             <p class="text-[11px] text-zinc-400">
-                                                Drag into target or tap (+) to assign
+                                                <span class="sm:hidden">Tap (+) to assign to active muscle group</span>
+                                                <span class="hidden sm:inline">Drag into target or tap (+) to assign</span>
                                             </p>
                                         </div>
                                     </div>
@@ -659,23 +683,27 @@ const getEquipmentBadge = (eq) => {
                             <div class="p-3 sm:p-4 bg-zinc-50/30 dark:bg-zinc-900/40 flex-1 overflow-y-auto max-h-[calc(100vh-280px)] scrollbar-thin">
                                 <VueDraggable
                                     v-model="filteredPoolExercises"
-                                    :group="{ name: 'exercises', pull: 'clone', put: false }"
+                                    :group="{ name: 'exercises', pull: isMobile ? false : 'clone', put: false }"
+                                    :disabled="isMobile"
                                     :sort="false"
                                     :clone="cloneExercise"
                                     ghost-class="opacity-40"
                                     class="space-y-2 min-h-[280px]"
                                 >
-                                    <!-- Draggable Exercise Card -->
+                                    <!-- Exercise Card -->
                                     <div
                                         v-for="exercise in filteredPoolExercises"
                                         :key="exercise.id"
-                                        class="group relative flex items-center justify-between p-3 rounded-2xl border transition-all duration-150 cursor-grab active:cursor-grabbing select-none"
-                                        :class="localAssignedIds.has(exercise.id)
-                                            ? 'border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/30 shadow-none'
-                                            : 'border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md'"
+                                        class="group relative flex items-center justify-between p-3 rounded-2xl border transition-all duration-150 select-none"
+                                        :class="[
+                                            !isMobile ? 'cursor-grab active:cursor-grabbing' : '',
+                                            localAssignedIds.has(exercise.id)
+                                                ? 'border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/30 shadow-none'
+                                                : 'border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md'
+                                        ]"
                                     >
                                         <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                                            <span class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs shrink-0" title="Drag to assign">
+                                            <span v-if="!isMobile" class="drag-handle text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs shrink-0 hidden lg:inline-flex" title="Drag to assign">
                                                 <i class="fa-solid fa-grip-vertical"></i>
                                             </span>
                                             <div class="min-w-0 flex-1">
@@ -708,14 +736,14 @@ const getEquipmentBadge = (eq) => {
                                                 v-if="!localAssignedIds.has(exercise.id)"
                                                 type="button"
                                                 @click.stop="assignExercise(exercise)"
-                                                class="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition active:scale-95 shadow-xs"
+                                                class="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition active:scale-95 shadow-xs"
                                                 title="Quick Assign"
                                             >
                                                 <i class="fa-duotone fa-plus text-xs"></i>
                                             </button>
                                             <span
                                                 v-else
-                                                class="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                                class="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                                                 title="Already Assigned"
                                             >
                                                 <i class="fa-duotone fa-check text-xs"></i>
