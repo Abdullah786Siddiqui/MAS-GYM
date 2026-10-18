@@ -37,7 +37,7 @@ watch(showingNavigationDropdown, (val) => {
 
                     <div class="flex items-center gap-6 sm:gap-8">
                         <!-- Logo -->
-                        <Link :href="route('dashboard')" class="flex shrink-0 items-center">
+                        <Link :href="route('dashboard')" prefetch="hover" cache-for="30s" class="flex shrink-0 items-center">
                             <AppLogo size="sm" />
                         </Link>
 
@@ -86,7 +86,7 @@ watch(showingNavigationDropdown, (val) => {
                                         </DropdownLink>
 
                                         <DropdownLink
-                                            :href="route('setup.exercise-assignments.index')"
+                                            :href="route('setup.exercise-assignments.manage')"
                                             :class="route().current('setup.exercise-assignments.*') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : ''"
                                         >
                                             <i class="fa-duotone fa-diagram-project me-2.5 text-emerald-500 w-4 text-center"></i>
@@ -227,7 +227,7 @@ watch(showingNavigationDropdown, (val) => {
                     <span>Exercises</span>
                 </ResponsiveNavLink>
                 <ResponsiveNavLink
-                    :href="route('setup.exercise-assignments.index')"
+                    :href="route('setup.exercise-assignments.manage')"
                     :active="route().current('setup.exercise-assignments.*')"
                     @click="showingNavigationDropdown = false"
                 >

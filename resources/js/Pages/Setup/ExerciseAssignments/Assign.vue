@@ -32,6 +32,9 @@ const props = defineProps({
 // Active selected muscle group state
 const currentMuscleGroupId = ref(props.selectedMuscleGroupId);
 
+// Skeleton loading state when switching muscle groups
+const switchingMuscleGroup = ref(false);
+
 // Reactive local state for assigned exercises (for instant 0ms optimistic updates)
 const localAssignedList = ref([...props.assignedExercises]);
 const localAssignedIds = ref(new Set(props.assignedExerciseIds));
@@ -47,6 +50,7 @@ const filteredMuscleGroups = computed(() => {
 // Sync when props change (e.g. when switching muscle groups)
 watch(() => props.assignedExercises, (newVal) => {
     localAssignedList.value = [...newVal];
+    switchingMuscleGroup.value = false;
 });
 
 watch(() => props.assignedExerciseIds, (newVal) => {
@@ -75,10 +79,21 @@ const muscleGroupSelectOptions = computed(() => {
 const switchMuscleGroup = (id) => {
     if (!id || id === currentMuscleGroupId.value) return;
     currentMuscleGroupId.value = id;
+
+    // Show inline skeleton instead of full-screen PageLoader
+    switchingMuscleGroup.value = true;
+    window.__suppressPageLoader = true;
+
     router.get(
         route('setup.exercise-assignments.manage'),
         { muscle_group_id: id },
-        { preserveState: true, preserveScroll: true }
+        {
+            preserveState: true,
+            preserveScroll: true,
+            onFinish: () => {
+                switchingMuscleGroup.value = false;
+            },
+        }
     );
 };
 
@@ -376,6 +391,7 @@ const getEquipmentBadge = (eq) => {
                     <SearchableSelect
                         :model-value="currentMuscleGroupId"
                         :options="muscleGroupSelectOptions"
+                        :searchable="false"
                         placeholder="Switch Muscle Group..."
                         search-placeholder="Search anatomy..."
                         accent-color="emerald"
@@ -542,74 +558,99 @@ const getEquipmentBadge = (eq) => {
 
                             <!-- VueDraggable: Assigned Target List -->
                             <div class="p-3 sm:p-4 bg-zinc-50/30 dark:bg-zinc-900/40 flex-1 flex flex-col">
-                                <VueDraggable
-                                    v-model="localAssignedList"
-                                    :group="{ name: 'exercises', put: !isMobile }"
-                                    :disabled="isMobile"
-                                    ghost-class="opacity-40"
-                                    drag-class="scale-102"
-                                    @add="onDraggableAdd"
-                                    class="space-y-2 flex-1 min-h-[280px]"
-                                >
-                                    <!-- Assigned Exercise Card -->
+
+                                <!-- Skeleton Loading State -->
+                                <div v-if="switchingMuscleGroup" class="space-y-2 flex-1 min-h-[280px]">
                                     <div
-                                        v-for="(item, index) in localAssignedList"
-                                        :key="item.id"
-                                        class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md transition-all duration-150 select-none"
-                                        :class="{ 'cursor-grab active:cursor-grabbing': !isMobile }"
+                                        v-for="n in 5"
+                                        :key="'skeleton-' + n"
+                                        class="flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 animate-pulse"
                                     >
-                                        <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-700/80 text-[10px] font-black text-zinc-600 dark:text-zinc-300">
-                                                {{ index + 1 }}
-                                            </span>
-                                            <div class="min-w-0 flex-1">
-                                                <h4 class="font-bold text-xs text-zinc-900 dark:text-white truncate">
-                                                    {{ item.name }}
-                                                </h4>
-                                                <div class="mt-0.5">
-                                                    <span
-                                                        class="inline-flex items-center px-1.5 py-0.2 rounded-md border text-[9px] font-bold"
-                                                        :class="getEquipmentBadge(item.equipment).class"
-                                                    >
-                                                        {{ getEquipmentBadge(item.equipment).label }}
-                                                    </span>
-                                                </div>
+                                        <div class="flex items-center gap-2.5 min-w-0 pr-2 flex-1">
+                                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700"></span>
+                                            <div class="min-w-0 flex-1 space-y-1.5">
+                                                <div class="h-3 rounded-md bg-zinc-200 dark:bg-zinc-700" :style="{ width: (50 + n * 8) + '%' }"></div>
+                                                <div class="h-2.5 w-16 rounded-md bg-zinc-100 dark:bg-zinc-700/60"></div>
                                             </div>
                                         </div>
-
-                                        <!-- Actions: Grip Handle (Desktop Only) + Unassign Button -->
                                         <div class="flex items-center gap-1.5 shrink-0">
-                                            <span v-if="!isMobile" class="drag-handle text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs hidden lg:inline-flex" title="Drag to reorder">
-                                                <i class="fa-solid fa-grip-vertical"></i>
-                                            </span>
-                                            <button
-                                                type="button"
-                                                @click.stop="unassignExercise(item)"
-                                                class="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition active:scale-95"
-                                                title="Remove exercise"
-                                            >
-                                                <i class="fa-duotone fa-xmark text-xs"></i>
-                                            </button>
+                                            <span class="h-6 w-6 rounded-lg bg-zinc-200 dark:bg-zinc-700"></span>
+                                            <span class="h-7 w-7 rounded-xl bg-zinc-200 dark:bg-zinc-700"></span>
                                         </div>
                                     </div>
-                                </VueDraggable>
-
-                                <!-- Empty Assigned State -->
-                                <div
-                                    v-if="localAssignedList.length === 0"
-                                    class="my-auto py-12 px-4 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center flex flex-col items-center justify-center bg-zinc-50/50 dark:bg-zinc-900/50"
-                                >
-                                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 mb-3">
-                                        <i class="fa-duotone fa-arrow-down-to-line text-xl"></i>
-                                    </div>
-                                    <h4 class="text-xs font-bold text-zinc-900 dark:text-white">
-                                        No movements assigned yet
-                                    </h4>
-                                    <p class="text-[11px] text-zinc-400 max-w-xs mt-1">
-                                        <span class="sm:hidden">Switch to Library Pool tab and tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
-                                        <span class="hidden sm:inline">Drag exercises from the library on the right or tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
-                                    </p>
                                 </div>
+
+                                <!-- Real Content -->
+                                <template v-else>
+                                    <VueDraggable
+                                        v-model="localAssignedList"
+                                        :group="{ name: 'exercises', put: !isMobile }"
+                                        :disabled="isMobile"
+                                        ghost-class="opacity-40"
+                                        drag-class="scale-102"
+                                        @add="onDraggableAdd"
+                                        class="space-y-2 flex-1 min-h-[280px]"
+                                    >
+                                        <!-- Assigned Exercise Card -->
+                                        <div
+                                            v-for="(item, index) in localAssignedList"
+                                            :key="item.id"
+                                            class="group relative flex items-center justify-between p-3 rounded-2xl border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-800 hover:border-emerald-500/40 hover:shadow-md transition-all duration-150 select-none"
+                                            :class="{ 'cursor-grab active:cursor-grabbing': !isMobile }"
+                                        >
+                                            <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                                                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-700/80 text-[10px] font-black text-zinc-600 dark:text-zinc-300">
+                                                    {{ index + 1 }}
+                                                </span>
+                                                <div class="min-w-0 flex-1">
+                                                    <h4 class="font-bold text-xs text-zinc-900 dark:text-white truncate">
+                                                        {{ item.name }}
+                                                    </h4>
+                                                    <div class="mt-0.5">
+                                                        <span
+                                                            class="inline-flex items-center px-1.5 py-0.2 rounded-md border text-[9px] font-bold"
+                                                            :class="getEquipmentBadge(item.equipment).class"
+                                                        >
+                                                            {{ getEquipmentBadge(item.equipment).label }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Actions: Grip Handle (Desktop Only) + Unassign Button -->
+                                            <div class="flex items-center gap-1.5 shrink-0">
+                                                <span v-if="!isMobile" class="drag-handle text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-grab px-1 text-xs hidden lg:inline-flex" title="Drag to reorder">
+                                                    <i class="fa-solid fa-grip-vertical"></i>
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    @click.stop="unassignExercise(item)"
+                                                    class="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition active:scale-95"
+                                                    title="Remove exercise"
+                                                >
+                                                    <i class="fa-duotone fa-xmark text-xs"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </VueDraggable>
+
+                                    <!-- Empty Assigned State -->
+                                    <div
+                                        v-if="localAssignedList.length === 0"
+                                        class="my-auto py-12 px-4 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center flex flex-col items-center justify-center bg-zinc-50/50 dark:bg-zinc-900/50"
+                                    >
+                                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 mb-3">
+                                            <i class="fa-duotone fa-arrow-down-to-line text-xl"></i>
+                                        </div>
+                                        <h4 class="text-xs font-bold text-zinc-900 dark:text-white">
+                                            No movements assigned yet
+                                        </h4>
+                                        <p class="text-[11px] text-zinc-400 max-w-xs mt-1">
+                                            <span class="sm:hidden">Switch to Library Pool tab and tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
+                                            <span class="hidden sm:inline">Drag exercises from the library on the right or tap (+) to assign to {{ currentMuscleGroup?.name }}</span>
+                                        </p>
+                                    </div>
+                                </template>
                             </div>
                         </div>
 

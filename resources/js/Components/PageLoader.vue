@@ -7,24 +7,37 @@ let startTimer = null;
 
 // Listen to Inertia page navigation events
 const handleStart = () => {
-    // Small 60ms debounce so instantaneous local clicks don't flash
+    // If a page explicitly suppressed the loader (e.g. inline skeleton), skip
+    if (window.__suppressPageLoader) {
+        window.__suppressPageLoader = false;
+        return;
+    }
+    if (startTimer) clearTimeout(startTimer);
+    // Standard 250ms threshold: fast/prefetched pages open instantly with zero full-screen flicker
     startTimer = setTimeout(() => {
         isLoading.value = true;
-    }, 60);
+    }, 250);
 };
 
 const handleFinish = () => {
-    if (startTimer) clearTimeout(startTimer);
+    if (startTimer) {
+        clearTimeout(startTimer);
+        startTimer = null;
+    }
     isLoading.value = false;
 };
 
 onMounted(() => {
     const removeStartListener = router.on('start', handleStart);
     const removeFinishListener = router.on('finish', handleFinish);
+    const removeCancelListener = router.on('cancel', handleFinish);
+    const removeErrorListener = router.on('error', handleFinish);
 
     onUnmounted(() => {
         removeStartListener();
         removeFinishListener();
+        removeCancelListener();
+        removeErrorListener();
     });
 });
 </script>

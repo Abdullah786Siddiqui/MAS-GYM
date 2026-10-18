@@ -10,6 +10,14 @@ const props = defineProps({
     active: {
         type: Boolean,
     },
+    prefetch: {
+        type: [Boolean, String, Array],
+        default: 'hover',
+    },
+    cacheFor: {
+        type: [String, Number],
+        default: '30s',
+    },
 });
 
 const classes = computed(() =>
@@ -20,7 +28,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
+    <Link :href="href" :class="classes" :prefetch="prefetch" :cache-for="cacheFor">
         <slot />
     </Link>
 </template>

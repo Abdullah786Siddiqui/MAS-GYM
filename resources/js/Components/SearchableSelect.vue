@@ -35,6 +35,10 @@ const props = defineProps({
         type: String,
         default: 'emerald', // 'emerald' | 'cyan'
     },
+    searchable: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const emit = defineEmits(['update:modelValue', 'change']);
@@ -142,9 +146,11 @@ const toggleDropdown = () => {
     isOpen.value = !isOpen.value;
     if (isOpen.value) {
         searchQuery.value = '';
-        nextTick(() => {
-            searchInputRef.value?.focus();
-        });
+        if (props.searchable) {
+            nextTick(() => {
+                searchInputRef.value?.focus();
+            });
+        }
     }
 };
 
@@ -269,7 +275,7 @@ const accentClasses = computed(() => {
                 class="absolute left-0 right-0 z-50 mt-1.5 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 shadow-2xl backdrop-blur-xl"
             >
                 <!-- Search Input Header -->
-                <div class="p-2 border-b border-zinc-100 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-800/40">
+                <div v-if="searchable" class="p-2 border-b border-zinc-100 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-800/40">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400">
                             <i class="fa-duotone fa-magnifying-glass text-xs"></i>
@@ -286,7 +292,7 @@ const accentClasses = computed(() => {
                 </div>
 
                 <!-- Options List -->
-                <div class="max-h-56 overflow-y-auto p-1.5 space-y-0.5">
+                <div class="max-h-56 overflow-y-auto p-1.5 space-y-0.5 scrollbar-hide">
                     <div
                         v-for="opt in filteredOptions"
                         :key="opt.value"
@@ -324,3 +330,13 @@ const accentClasses = computed(() => {
         </Transition>
     </div>
 </template>
+
+<style scoped>
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style>
